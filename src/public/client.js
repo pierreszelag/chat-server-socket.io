@@ -43,16 +43,28 @@ socket.on('chat-message', function (message) {
  * Connexion de l'utilisateur
  * Uniquement si le username n'est pas vide et n'existe pas encore
  */
+
 $('#login form').submit(function (e) {
+  
     e.preventDefault();
     var user = {
       username : $('#login input').val().trim()
     };
     if (user.username.length > 0) { // Si le champ de connexion n'est pas vide
       socket.emit('user-login', user, function (success) {
-        if (success) {
+        if (success == true) {
           $('body').removeAttr('id'); // Cache formulaire de connexion
           $('#chat input').focus(); // Focus sur le champ du message
+        } else if (success == "surcharge redis") {
+          $('#errorLogin').empty();
+          $('#errorLogin').append($('<li>').html('<span class="errorRedis">' + 
+          "Le serveur est surchargé. Veuillez attendre qu'un utilisateur se déconnecte pour entrer dans le salon" +
+          '</span> '));
+        } else {
+          $('#errorLogin').empty();
+          $('#errorLogin').append($('<li>').html('<span class="errorUsername">' + 
+          "Ce nom d'utilisateur n'est pas disponible. Veuillez en choisir un autre" +
+          '</span> '));
         }
       });
     }
