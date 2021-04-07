@@ -10,8 +10,19 @@ npm install
 ```
 
 ## Execution
-
-Inside /src directory :
+Launch redis server :
+```
+redis-server
+```
+Get the 'data' folder in this repository for the replicaSets and launch mongoDB server :
+```
+mongod --port 27017 --dbpath data
+```
+Install dependences inside /src directory :
+```
+npm install
+```
+Launch nodejs server inside /src directory :
 ```
 node server
 ```
